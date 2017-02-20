@@ -62,6 +62,7 @@ source $ZSH/oh-my-zsh.sh
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
+export FASTLY_TOKEN=0bd6c1c26980a828d15bb42fbb0b1e99
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -85,72 +86,6 @@ export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
 # For a full list of active aliases, run `alias`.
 #
 
-function _chbrochure_resolve() {
-  host $1 | grep 'has address' | awk '{ print $4 }'
-}
-
-function _chbrochure_host() {
-  case $1 in
-  app4)
-    echo 'brochure-app4.ec2.shopify.com'
-    ;;
-  production)
-    echo 'origin.www.shopify.com'
-    ;;
-  staging)
-    echo 'brochure-app1.staging.ec2.shopify.com'
-    ;;
-  *)
-    echo $1
-    ;;
-  esac
-}
-
-function _chbrochure_set() {
-  local _temphosts=`mktemp -t chbrochure.hosts`
-
-  cat /etc/hosts | sed -e "/brochure2-hosts-start/,/brochure2-hosts-end/d" >$_temphosts
-
-  if [ "$1" != "production" ]
-  then
-    local _host=`_chbrochure_host $1`
-    local _ip=`_chbrochure_resolve $_host | head -n1`
-
-    shift
-
-    echo "## brochure2-hosts-start" >>$_temphosts
-
-    for host in es.shopify.com fr.shopify.ca fr.shopify.com pt.shopify.com ru.shopify.com wholesale.shopify.com www.shopify.ca www.shopify.co.id www.shopify.co.ng www.shopify.com
-    do
-    echo "$_ip $host" >>$_temphosts
-    done
-
-    echo "## brochure2-hosts-end" >>$_temphosts
-  fi
-
-  sudo cp $_temphosts /etc/hosts
-  rm -f $_temphosts
-}
-
-function _chbrochure_which() {
-  local _ip=`_chbrochure_resolve www.shopify.com | head -n1`
-
-  for _env in app4 production staging
-  do
-    _chbrochure_resolve `_chbrochure_host $_env` | grep -q $_ip
-    echo "`echo $? | tr '01' '* '` $_env"
-  done
-}
-
-function chbrochure() {
-  if [ $# -eq 0 ]
-  then
-    _chbrochure_which
-  else
-    _chbrochure_set $*
-  fi
-}
-
  # git commands
 alias co='git checkout'
 alias gs='git status'
@@ -166,4 +101,5 @@ alias pbranch='echo "$(current_branch)" | pbcopy'
 alias be='bundle exec'
 alias sourceme='source ~/.zshrc'
 
+alias vi='/usr/local/bin/vim'
 [ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh

@@ -25,3 +25,7 @@
 	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 [diff]
 	tool = Kaleidoscope
+[rerere]
+	enabled = false
+[pull]
+	rebase = true
