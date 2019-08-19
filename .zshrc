@@ -54,15 +54,9 @@ plugins=(git)
 
 # User configuration
 
-export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:/Library/Frameworks/Python.framework/Versions/3.4/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/texbin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
-
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
-export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
-export FASTLY_TOKEN=0bd6c1c26980a828d15bb42fbb0b1e99
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -86,6 +80,9 @@ export FASTLY_TOKEN=0bd6c1c26980a828d15bb42fbb0b1e99
 # For a full list of active aliases, run `alias`.
 #
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
  # git commands
 alias co='git checkout'
 alias gs='git status'
@@ -102,4 +99,3 @@ alias be='bundle exec'
 alias sourceme='source ~/.zshrc'
 
 alias vi='/usr/local/bin/vim'
-[ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
